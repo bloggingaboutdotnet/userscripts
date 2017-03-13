@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         add title
 // @namespace    https://meta.stackexchange.com/users/158100/rene
-// @version      0.2
+// @version      0.3
 // @description  Add titles to links on the frontpage of an SE site
 // @author       rene
 // @match        *://*.stackexchange.com/
@@ -178,7 +178,6 @@
         // fetch sites
         SEApi.get(apiSitesBuilder(), function (data) {
             if (data.items && data.items.length) {
-                localStorage.setItem('SE-add-titles', JSON.stringify({ cachedDate: Date.now() , items: data.items  }));
                 var site = findApiSiteParameter(data.items);
                 localStorage.setItem('SE-add-titles', JSON.stringify({ cachedDate: Date.now() , site: site  }));
             }
