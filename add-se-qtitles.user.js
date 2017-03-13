@@ -7,7 +7,6 @@
 // @match        *://*.stackexchange.com/
 // @match        *://superuser.com/
 // @match        *://serverfault.com/
-// @match        *://meta.*.stackexchange.com/
 // @grant        none
 // ==/UserScript==
 
