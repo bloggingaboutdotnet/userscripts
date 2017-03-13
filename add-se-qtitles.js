@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         add title
 // @namespace    https://meta.stackexchange.com/users/158100/rene
-// @version      0.1
+// @version      0.2
 // @description  Add titles to links on the frontpage of an SE site
 // @author       rene
 // @match        *://*.stackexchange.com/
@@ -134,7 +134,7 @@
 
     // hook the mouseover event on the titles
     function bindMouseOver(api_site_parameter) {
-        $('div.summary>h3>a').on('mouseover', function (e) {
+        $('div.summary>h3>a').one('mouseover', function (e) {
             var questionTitleLink = $(this), 
                 id = questionTitleLink.parent().parent().parent().prop('id'),
                 idparts = id.split('-');
@@ -153,8 +153,6 @@
                 });
                 $(this).prop('title', 'loading ' + id);
             }
-            // we only try to load once 
-            $(this).off('mouseover');
         });
     }
 
@@ -165,9 +163,10 @@
             site = items[i];
             if (site.site_url.indexOf(document.location.hostname) !== -1) {
                 bindMouseOver(site.api_site_parameter);
-                break;
+                return site.api_site_parameter;
             }
         }
+        return null;
     }
 
     // cache site list
@@ -175,16 +174,17 @@
     if (cachedSites !== undefined) cachedSites = JSON.parse(cachedSites);
     
     var day = 86400000; // in ms
-    if ((cachedSites === undefined || cachedSites === null ) ||
+    if ((cachedSites === undefined || cachedSites === null ) || (cachedSites.items ) ||
        (cachedSites.cacheDate && (cachedSites.cacheDate + day) < Date.now() )) {
         // fetch sites
         SEApi.get(apiSitesBuilder(), function (data) {
             if (data.items && data.items.length) {
                 localStorage.setItem('SE-add-titles', JSON.stringify({ cachedDate: Date.now() , items: data.items  }));
-                findApiSiteParameter(data.items);
+                var site = findApiSiteParameter(data.items);
+                localStorage.setItem('SE-add-titles', JSON.stringify({ cachedDate: Date.now() , site: site  }));
             }
         });
     } else {
-       findApiSiteParameter(cachedSites.items);
+       bindMouseOver(cachedSites.site);
     }
 })();
