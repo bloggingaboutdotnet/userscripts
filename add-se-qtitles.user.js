@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name         add title
 // @namespace    https://meta.stackexchange.com/users/158100/rene
-// @version      0.3
+// @version      0.3.1
 // @description  Add titles to links on the frontpage of an SE site
 // @author       rene
 // @match        *://*.stackexchange.com/
 // @match        *://superuser.com/
 // @match        *://serverfault.com/
 // @grant        none
+// @updateURL       https://github.com/rschrieken/SmallButHandy/raw/master/AddExcerptToTitle.user.js
+// @downloadURL     https://github.com/rschrieken/SmallButHandy/raw/master/AddExcerptToTitle.user.js
 // ==/UserScript==
 
 (function() {
